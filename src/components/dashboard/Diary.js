@@ -39,7 +39,7 @@ const Diary = () => {
       setData(dataSorted);
     };
     getData();
-  }, [data]);
+  }, []);
 
   console.log(data);
 

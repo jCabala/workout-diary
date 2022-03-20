@@ -7,7 +7,7 @@ import { useUserState } from '../../contexts/UserContext';
 import PropTypes from 'prop-types';
 import { sortByDate } from '../../helper-functions/sortByDate';
 
-const WorkoutForm = ({ setData, data }) => {
+const WorkoutForm = ({ setData, data, getData }) => {
   const sportRef = useRef();
   const dateRef = useRef();
   const durationRef = useRef();
@@ -57,7 +57,7 @@ const WorkoutForm = ({ setData, data }) => {
     try {
       await addDoc(userCollectionRef, newWorkout);
 
-      setData([...data, {}].sort(sortByDate));
+      getData();
     } catch (err) {
       console.log(err.message);
       alert('Sorry. Something went wrong.');
@@ -142,6 +142,7 @@ const WorkoutForm = ({ setData, data }) => {
 WorkoutForm.propTypes = {
   setData: PropTypes.func.isRequired,
   data: PropTypes.array.isRequired,
+  getData: PropTypes.func.isRequired,
 };
 
 export default WorkoutForm;

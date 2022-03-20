@@ -17,27 +17,32 @@ const Diary = () => {
   const [data, setData] = useState([]);
   const [dataPage, setDataPage] = useState(1);
   const [formOpened, setFormOpened] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const navigate = useNavigate();
+
   const {
     user: { uid },
   } = useUserState();
 
   const userCollectionRef = collection(db, 'workouts');
 
+  const getData = async () => {
+    setLoading(true);
+    const q = query(userCollectionRef, where('userId', '==', uid));
+
+    const newData = await getDocs(q);
+
+    const dataMapped = newData.docs.map(doc => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+
+    const dataSorted = dataMapped.sort(sortByDate);
+    setData(dataSorted);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    const getData = async () => {
-      const q = query(userCollectionRef, where('userId', '==', uid));
-
-      const newData = await getDocs(q);
-
-      const dataMapped = newData.docs.map(doc => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-
-      const dataSorted = dataMapped.sort(sortByDate);
-      setData(dataSorted);
-    };
     getData();
   }, []);
 
@@ -55,7 +60,7 @@ const Diary = () => {
         )}
       </AddButton>
       {!formOpened ? (
-        data.length > 0 ? (
+        !isLoading ? (
           <>
             {' '}
             <div className='d-flex flex-wrap'>
@@ -96,7 +101,7 @@ const Diary = () => {
         )
       ) : (
         <Container>
-          <WorkoutForm setData={setData} data={data} />
+          <WorkoutForm getData={getData} setData={setData} data={data} />
         </Container>
       )}
     </Section>

@@ -4,10 +4,9 @@ import {
   SidebarLinks,
   SidebarLink,
 } from '../styles/Sidebar.styled';
-import { GiHamburgerMenu } from 'react-icons/gi';
 
 import { AiOutlineClose } from 'react-icons/ai';
-import { BiLogOut, BiBookContent } from 'react-icons/bi';
+import { BiLogOut, BiBookContent, BiArrowToRight } from 'react-icons/bi';
 
 import { CgGym } from 'react-icons/cg';
 import { useState } from 'react';
@@ -42,7 +41,7 @@ const Sidebar = () => {
     <SidebarStyled opened={open}>
       <Hamburger onClick={() => setOpen(!open)}>
         {!open ? (
-          <GiHamburgerMenu color='white' size='1.5rem' />
+          <BiArrowToRight color='white' size='1.5rem' />
         ) : (
           <AiOutlineClose color='white' size='1.5rem' />
         )}

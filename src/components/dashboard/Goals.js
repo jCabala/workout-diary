@@ -142,24 +142,30 @@ const Goals = () => {
               <tbody>
                 {goals
                   .filter(e => e.achieved === true)
-                  .map((goal, idx) => (
-                    <tr key={`goal-${idx + 1}`}>
-                      <td style={{ fontWeight: 500, fontSize: '1.25rem' }}>
-                        {idx + 1}
-                      </td>
-                      <td>
-                        <p>{goal.goal} </p>
-                      </td>
-                      <td>{goal.date}</td>
-                      <td>
-                        <div>
-                          <DeleteBtn onClick={() => deleteGoal(goal.id)}>
-                            <AiFillDelete size='1.5rem' />
-                          </DeleteBtn>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                  .map((goal, idx) => {
+                    const newDate = new Date(goal.date);
+
+                    const date = newDate.toDateString();
+
+                    return (
+                      <tr key={`goal-${idx + 1}`}>
+                        <td style={{ fontWeight: 500, fontSize: '1.25rem' }}>
+                          {idx + 1}
+                        </td>
+                        <td>
+                          <p>{goal.goal} </p>
+                        </td>
+                        <td>{date}</td>
+                        <td>
+                          <div>
+                            <DeleteBtn onClick={() => deleteGoal(goal.id)}>
+                              <AiFillDelete size='1.5rem' />
+                            </DeleteBtn>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </Table>
           </TablesContainer>
